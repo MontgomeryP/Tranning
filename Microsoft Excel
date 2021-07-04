@@ -1,0 +1,92 @@
+How to create your own local Git remote repo that’s not hosted on a Git server (–bare option) – 062
+I highly recommend Ed Thomson’s Git for Visual Studio O’Reilly course. It’s one of the several training courses I’ve taken to put together this series. In fact, stop reading this series and go watch Ed’s course now!
+
+Ed mentions that you are not required to clone from a Git server. He shows how he could clone from F:\shared.git, where the F: drive is where he mounted a UNC share. This got me thinking… what is `shared.git` (is it a file, folder, etc?) and how do you create or get one locally.
+
+After a bunch of SO’ing and reading several answers, I’ve learned that you can create your own local remote repo (I seriously have no idea what this type of repo is called. bare repo? Help me out in the comments if you know.)
+
+1. Create the shared.git folder
+
+This `shared.git` thingy is actually a folder. You can created it by creating a new folder somewhere but calling it `shared.git` as the folder name, e.g.
+
+shared.git as a folder name
+
+2. Create a bare repo inside shared.git
+
+cd inside the shared.git folder and run the command
+
+git init –bare
+
+This command creates a bare repo, which apparently is a repo without a working directory, meaning you can’t do something like `ls` to see the contents of the git repo. But clearly it has all the underlying plumbing when you do a `ls –la` on the folder’s contents.
+
+command prompt showing creating and viewing contents of a bare git repo
+
+3. Create a local git repository to contain your actual files, like you normally would
+
+I’m going to head back over to my \Source\Repos directory and create a new local git repository using the command
+
+git init
+
+command prompt showing git init a new repo
+
+And I’ll create a README.md file with some content and add/commit it to the repo, as you’ve done a 100 times by now.
+
+command prompt showing adding a readme file to a new repo
+
+4. Push your changes to your bare remote
+
+Now it’s time to pretend that your shared.git repo is like all the other git repos you’ve ever interacted with that is hosted on a server.
+
+Remember your training. The command is `git push server-name branch-name`, so in my case, I’ll run
+
+git push ~/Documents/shared.git master
+
+Note I’m not passing in a `username@server` because I’m using Git Shell, and that’s been taken care of for me. 
+
+pushing your changes to a local bare git remote
+
+Remember we can’t do a `git ls-files` here in the shared.git folder because it is a bare repo and has no working directory. However, we can note that the objects folder has had its timestamp updated.
+
+command prompt exploring contents of shared.git
+
+5. Clone from Visual Studio
+
+All that setup! Now, let’s get back to Ed’s example…
+
+Now I paste in the location to my shared.git remote.
+
+Team Explorer cloning from shared.git
+
+and now hitting clone we’ll see an info message at the top of Team Explorer indicating that the repo was cloned successfully.
+
+Double-click to switch to the newly cloned shared.git repository.
+
+Double click in Team Explorer to switch repositories
+
+Note Visual Studio is just going to look at you because there’s no solution file to open. That’s okay. We can old school open that readme via File – Open – File and selecting the readme over at C:\Users\saraf\Source\Repos\shared (or wherever your default repo location is at.)
+
+And volia we see the readme.txt file open in Visual Studio showing our “hello world” contents. (Hello Visual Studio File Tab Channel my old friend. I’ve come to blog about you again.)
+
+readme.txt file opened in Visual Studio
+
+6. Go Explore!
+
+Now you can go explore and play with your newly created local git remote thingy (I’ll update name when I find out what it is technically called). I’ll leave it up to you to make changes here in VS, push those changes back up (or over?) to shared.git, and then use your original `firstrepo` repo to pull down any changes from Visual Studio.
+
+And I mean it when I say check out Ed’s excellent Git for Visual Studio videos.
+
+Share this:
+TwitterFacebook
+
+Git(Hub) Tip of the Day 2017
+sarafordMarch 3, 2017gitvisual studio
+Post navigation
+How to change the default local location for your Git repos in Team Explorer – 061How to interpret the blue pad lock icon when using Git in Solution Explorer – 063
+2 thoughts on “How to create your own local Git remote repo that’s not hosted on a Git server (–bare option) – 062”
+benjiro
+March 6, 2017 at 1:47 am
+Or you can simply use GOGs for your own private GIT …
+
+https://gogs.io/
+
+
